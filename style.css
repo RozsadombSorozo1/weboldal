@@ -36,6 +36,7 @@ header {
 }
 
 .bevezeto {
+    gap: 20px;
     text-align: center;
     margin: 20px auto 15px auto; /* kisebb margin, harmonikus a rövid italokhoz */
     font-size: 2.5rem;
@@ -174,3 +175,4 @@ footer{
         align-items: flex-start;
     }
 }
+
