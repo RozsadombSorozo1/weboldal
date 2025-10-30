@@ -2,20 +2,21 @@ body {
     background-color: orange;
     margin: 0;
     font-family: Arial, sans-serif;
-    padding-top: 220px; /* a header magasságának megfelelően */
+    /* keep room for the fixed header; reduced from 220 to a more flexible default
+       mobile rules will further reduce this value */
+    padding-top: 180px;
 }
 
 header {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;                  
-    max-width: 1200px;          
+    left: 0;
+    right: 0;
     background-color: rgb(192, 130, 14);
     border-bottom: 2px solid #ccc;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     z-index: 1000;
+    /* content inside header will be centered by the .fejlec container */
 }
 
 .fejlec {
@@ -23,11 +24,26 @@ header {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    /* center content and limit width for large screens */
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
 }
 
 .rozsa-ikon {
-    width: 200px; 
-    height: 200px;
+    /* icons/images scale responsively */
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
+
+/* make all images responsive by default */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .szocmedia {
@@ -36,10 +52,10 @@ header {
 }
 
 .bevezeto {
-    gap: 20px;
     text-align: center;
     margin: 20px auto 15px auto; /* kisebb margin, harmonikus a rövid italokhoz */
-    font-size: 2.5rem;
+    /* fluid but clamped font size for phones and larger screens */
+    font-size: clamp(1.2rem, 4vw, 2.5rem);
     color: #fff;
 }
 
@@ -49,17 +65,25 @@ header {
 }
 
 .bevezeto2 {
+    /* ensure this heading always sits above the item boxes */
     width: 100%;
     text-align: center;
     margin-bottom: 40px;
+    display: block;
+    /* for flex containers: take a full row */
+    order: -1;
+    flex-basis: 100%;
+    /* for grid containers: span all columns */
+    grid-column: 1 / -1;
 }
 
 .rövid-italok {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
     justify-content: center;
     margin-top: 0; /* a body padding-top miatt felesleges */
+    padding: 10px;
 }
 
 .veresagyvelo-box {
@@ -115,23 +139,22 @@ footer{
 
 .bulizz{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 50px;
-    position: relative;
-    left: 310px;
-    bottom: 170px;
+    /* avoid absolute positioning for responsive flow; use centered block */
+    font-size: clamp(1.5rem, 6vw, 3rem);
+    margin: 10px auto;
+    text-align: center;
+    display: block;
 }
 .randomital{
-    position: relative;
-    left: 1000px;
-    bottom: 450px;
+    /* avoid hard-coded offsets, place it in normal flow */
+    display: block;
+    margin: 10px auto;
 }
 /* Reszponzív: mobilon egymás alá */
 @media (max-width: 600px) {
     header {
-        width: 100%;
-        left: 0;
-        transform: none;
-        padding: 10px;
+        /* header already spans full width; keep small padding */
+        padding: 8px 6px;
     }
 
     .fejlec {
@@ -141,18 +164,18 @@ footer{
     }
 
     .rozsa-ikon {
-        width: 50px;
-        height: 50px;
+        max-width: 100px;
+        height: auto;
     }
 
     .szocmedia {
-        gap: 25px;
+        gap: 5px;
         justify-content: center;
         flex-wrap: wrap;
     }
 
     .bevezeto {
-        font-size: 1.8rem;
+        font-size: clamp(1rem, 5vw, 1.8rem);
     }
 
     body {
@@ -176,4 +199,54 @@ footer{
     }
 }
 
+/* Extra small phones (e.g. 320px wide) tweaks */
+@media (max-width: 375px) {
+    .fejlec { padding: 6px; gap: 6px; }
+    .bevezeto2, .bevezeto3 { margin-bottom: 30px; }
+    .bevezeto { margin: 12px auto 10px; }
+    body { padding-top: 110px; }
+}
 
+/* Larger phones / small tablets: 600-900px: use 2-column layout for short items */
+@media (min-width: 601px) and (max-width: 899px) {
+    .rövid-italok {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+    }
+}
+
+/* Desktop / wide screens keep the original feel */
+@media (min-width: 900px) {
+    .rövid-italok {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 30px;
+    }
+    body { padding-top: 220px; }
+}
+
+/* Footer responsive layout: keep desktop visual while remaining responsive on phones */
+footer > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+@media (max-width: 600px) {
+    footer > div { flex-direction: column; }
+    footer img { max-width: 90%; height: auto; }
+    .bulizz { font-size: clamp(1rem, 6vw, 1.5rem); }
+}
+
+@media (min-width: 900px) {
+    /* on large screens, preserve the desktop look: inline items with larger heading */
+    footer > div { flex-direction: row; }
+    .bulizz { font-size: 50px; margin: 0; }
+    .randomital { margin: 0; }
+    footer img { max-width: 300px; }
+}
