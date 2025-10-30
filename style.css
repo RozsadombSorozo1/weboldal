@@ -153,38 +153,32 @@ footer{
 /* Reszponzív: mobilon egymás alá */
 @media (max-width: 600px) {
     header {
-        /* header already spans full width; make it much smaller on phones */
+        /* compact header on phones */
         padding: 6px 8px;
-        height: 56px; /* compact header height */
+        height: 56px;
         overflow: hidden;
     }
 
+    /* keep header items visible but compact and in a single row
+       so the logo and social icons remain accessible on phones */
     .fejlec {
-        flex-direction: column;
-        gap: 5px;
+        flex-direction: row;
+        gap: 8px;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
     }
 
-    .rozsa-ikon {
-        max-width: 100px;
-        height: auto;
-    }
-
-    /* make logo and social icons smaller inside the compact header */
     .rozsa-ikon { max-width: 48px; }
+    .szocmedia { gap: 6px; }
     .szocmedia img { max-width: 28px; }
-    .rozsa { display: none; } /* hide large header text to save space */
+    /* keep the Rózsadomb text but much smaller */
+    .rozsa { font-size: 0.9rem; margin: 0 6px; }
 
-
-/* Very small phones: hide header completely to maximize content area */
-@media (max-width: 375px) {
-    header { display: none; }
-    body { padding-top: 20px; }
-}
     .szocmedia {
         gap: 5px;
         justify-content: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
 
     .bevezeto {
@@ -193,7 +187,7 @@ footer{
 
     body {
         /* reduce top padding since header is smaller */
-        padding-top: 100px;
+        padding-top: 90px;
     }
 
     .rövid-italok {
@@ -215,10 +209,15 @@ footer{
 
 /* Extra small phones (e.g. 320px wide) tweaks */
 @media (max-width: 375px) {
-    .fejlec { padding: 6px; gap: 6px; }
-    .bevezeto2, .bevezeto3 { margin-bottom: 30px; }
-    .bevezeto { margin: 12px auto 10px; }
-    body { padding-top: 110px; }
+    /* very small phones: keep header visible but extremely compact */
+    header { height: 48px; padding: 4px 6px; }
+    .fejlec { padding: 4px; gap: 6px; }
+    .rozsa-ikon { max-width: 40px; }
+    .szocmedia img { max-width: 24px; }
+    .rozsa { font-size: 0.8rem; }
+    .bevezeto2, .bevezeto3 { margin-bottom: 24px; }
+    .bevezeto { margin: 10px auto 8px; }
+    body { padding-top: 72px; }
 }
 
 /* Larger phones / small tablets: 600-900px: use 2-column layout for short items */
