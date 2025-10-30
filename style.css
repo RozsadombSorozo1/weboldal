@@ -153,8 +153,10 @@ footer{
 /* Reszponzív: mobilon egymás alá */
 @media (max-width: 600px) {
     header {
-        /* header already spans full width; keep small padding */
-        padding: 8px 6px;
+        /* header already spans full width; make it much smaller on phones */
+        padding: 6px 8px;
+        height: 56px; /* compact header height */
+        overflow: hidden;
     }
 
     .fejlec {
@@ -168,6 +170,17 @@ footer{
         height: auto;
     }
 
+    /* make logo and social icons smaller inside the compact header */
+    .rozsa-ikon { max-width: 48px; }
+    .szocmedia img { max-width: 28px; }
+    .rozsa { display: none; } /* hide large header text to save space */
+
+
+/* Very small phones: hide header completely to maximize content area */
+@media (max-width: 375px) {
+    header { display: none; }
+    body { padding-top: 20px; }
+}
     .szocmedia {
         gap: 5px;
         justify-content: center;
@@ -179,7 +192,8 @@ footer{
     }
 
     body {
-        padding-top: 120px;
+        /* reduce top padding since header is smaller */
+        padding-top: 100px;
     }
 
     .rövid-italok {
